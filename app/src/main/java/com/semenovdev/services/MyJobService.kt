@@ -3,6 +3,7 @@ package com.semenovdev.services
 import android.app.job.JobParameters
 import android.app.job.JobService
 import android.content.Intent
+import android.os.Build
 import android.os.PersistableBundle
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
@@ -32,14 +33,23 @@ class MyJobService: JobService() {
 
     override fun onStartJob(params: JobParameters?): Boolean {
         log("onStartJob")
-        var page = params?.extras?.getInt(PAGE_EXTRA) ?: 0
         coroutineScope.launch {
-            for (i in 0..5) {
-                delay(1000)
-                log("Timer: $page $i")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            var workItem = params?.dequeueWork()
+            while (workItem != null) {
+                var page = workItem.intent?.getIntExtra(PAGE_EXTRA, 0) ?: 0
+
+                    for (i in 0..5) {
+                        delay(1000)
+                        log("Timer: $page $i")
+                    }
+                    params?.completeWork(workItem)
+                    workItem = params?.dequeueWork()
+                }
+                jobFinished(params, true)
             }
-            jobFinished(params, true)
         }
+
         //возвращаемое значение true, если сервис все еще выполняется и мы сами завершим работу
         return true
     }
@@ -57,10 +67,9 @@ class MyJobService: JobService() {
         const val JOB_ID = 111
         private const val PAGE_EXTRA = "page"
 
-        fun newBundle(page: Int): PersistableBundle {
-            return PersistableBundle().apply {
-                putInt(PAGE_EXTRA, page)
-            }
+        fun newIntent (page: Int): Intent {
+            return Intent()
+                .putExtra(PAGE_EXTRA, page)
         }
     }
 }
