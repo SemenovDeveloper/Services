@@ -1,7 +1,11 @@
 package com.semenovdev.services
 
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.semenovdev.services.databinding.ActivityMainBinding
@@ -26,6 +30,18 @@ class MainActivity : AppCompatActivity() {
         }
         binding.intentService.setOnClickListener {
             startService(NotificationIntentService.newIntent(this))
+        }
+        binding.jobScheduler.setOnClickListener {
+            Log.d("jobScheduler", "jobScheduler")
+            val component = ComponentName(this, MyJobService::class.java)
+            val jobInfo = JobInfo.Builder(MyJobService.JOB_ID, component)
+                .setRequiresCharging(true)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .setPersisted(true)
+                .build()
+
+            val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+            jobScheduler.schedule(jobInfo)
         }
     }
 }

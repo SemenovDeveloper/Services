@@ -50,4 +50,8 @@ class MyJobService: JobService() {
     private fun log(message: String) {
         Log.d("SERVICE_TAG", "My job service: $message")
     }
+
+    companion object {
+        const val JOB_ID = 111
+    }
 }
