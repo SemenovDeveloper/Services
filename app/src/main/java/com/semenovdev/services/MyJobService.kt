@@ -3,6 +3,7 @@ package com.semenovdev.services
 import android.app.job.JobParameters
 import android.app.job.JobService
 import android.content.Intent
+import android.os.PersistableBundle
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,10 +32,11 @@ class MyJobService: JobService() {
 
     override fun onStartJob(params: JobParameters?): Boolean {
         log("onStartJob")
+        var page = params?.extras?.getInt(PAGE_EXTRA) ?: 0
         coroutineScope.launch {
-            for (i in 0..100) {
+            for (i in 0..5) {
                 delay(1000)
-                log("Timer: $i")
+                log("Timer: $page $i")
             }
             jobFinished(params, true)
         }
@@ -53,5 +55,12 @@ class MyJobService: JobService() {
 
     companion object {
         const val JOB_ID = 111
+        private const val PAGE_EXTRA = "page"
+
+        fun newBundle(page: Int): PersistableBundle {
+            return PersistableBundle().apply {
+                putInt(PAGE_EXTRA, page)
+            }
+        }
     }
 }
