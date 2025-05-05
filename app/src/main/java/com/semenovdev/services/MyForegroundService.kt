@@ -17,7 +17,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MyForegroundService: Service() {
-    private var notificationId = 1
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
