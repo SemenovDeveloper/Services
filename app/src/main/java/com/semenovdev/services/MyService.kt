@@ -21,14 +21,12 @@ class MyService: Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-            coroutineScope.launch {
-                for (i in 0..100) {
-                    delay(1000)
-                    log("Timer: $i")
-                }
+        coroutineScope.launch {
+            for (i in 0..100) {
+                delay(1000)
+                log("Timer: $i")
             }
-
+        }
         return super.onStartCommand(intent, flags, startId)
     }
 
