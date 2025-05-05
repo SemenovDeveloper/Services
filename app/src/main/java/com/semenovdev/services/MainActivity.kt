@@ -36,17 +36,18 @@ class MainActivity : AppCompatActivity() {
             startService(NotificationIntentService.newIntent(this))
         }
         binding.jobScheduler.setOnClickListener {
-            Log.d("jobScheduler", "jobScheduler")
-            val component = ComponentName(this, MyJobService::class.java)
-            val jobInfo = JobInfo.Builder(MyJobService.JOB_ID, component)
-                .setRequiresCharging(true)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
-                .build()
-
-            val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
-            val intent = MyJobService.newIntent(page++)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val component = ComponentName(this, MyJobService::class.java)
+                val jobInfo = JobInfo.Builder(MyJobService.JOB_ID, component)
+                    .setRequiresCharging(true)
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                    .build()
+
+                val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+                val intent = MyJobService.newIntent(page++)
                 jobScheduler.enqueue(jobInfo, JobWorkItem(intent))
+            } else {
+                startService(EarlyVersionsIntentService.newIntent(this, page++))
             }
         }
     }
