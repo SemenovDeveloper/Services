@@ -22,8 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".MyService" />
-        <service android:name=".MyForegroundService" android:foregroundServiceType="specialUse"/>
+        <service android:name=".NotificationService" />
+        <service android:name=".NotificationForegroundService" android:foregroundServiceType="specialUse"/>
+        <service android:name=".NotificationIntentService" />
     </application>
 
 </manifest>

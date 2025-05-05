@@ -16,7 +16,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MyForegroundService: Service() {
+class NotificationForegroundService: Service() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
@@ -53,7 +53,7 @@ class MyForegroundService: Service() {
     }
 
     private fun log(message: String) {
-        Log.d("", "My foreground service: $message")
+        Log.d("SERVICE_TAG", "My foreground service: $message")
     }
 
     private fun showNotification(notification: Notification) {
@@ -85,7 +85,7 @@ class MyForegroundService: Service() {
         private const val NOTIFICATION_ID = 1
 
         fun newIntent(context: Context): Intent {
-            return Intent(context, MyForegroundService::class.java)
+            return Intent(context, NotificationForegroundService::class.java)
         }
     }
 }

@@ -18,11 +18,14 @@ class MainActivity : AppCompatActivity() {
         binding.simpleService.setOnClickListener {
             // Oстановка сервиса снаружи
             stopService(foregroundService)
-            startService(MyService.newIntent(this))
+            startService(NotificationService.newIntent(this))
         }
         binding.foregroundService.setOnClickListener {
-            foregroundService = MyForegroundService.newIntent(this)
+            foregroundService = NotificationForegroundService.newIntent(this)
             ContextCompat.startForegroundService(this, foregroundService)
+        }
+        binding.intentService.setOnClickListener {
+            startService(NotificationIntentService.newIntent(this))
         }
     }
 }

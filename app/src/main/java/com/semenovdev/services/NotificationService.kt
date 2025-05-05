@@ -11,7 +11,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MyService: Service() {
+class NotificationService: Service() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
@@ -46,7 +46,7 @@ class MyService: Service() {
 
     companion object {
         fun newIntent(context: Context): Intent {
-            return Intent(context, MyService::class.java)
+            return Intent(context, NotificationService::class.java)
         }
     }
 }
