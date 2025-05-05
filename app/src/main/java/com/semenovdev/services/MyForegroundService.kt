@@ -21,6 +21,7 @@ class MyForegroundService: Service() {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate() {
+        log("onCreate")
         super.onCreate()
         createNotificationChanel()
         val notification = createNotification()
@@ -28,11 +29,14 @@ class MyForegroundService: Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        log("onStartCommand")
         coroutineScope.launch {
-            for (i in 0..100) {
+            for (i in 0..3) {
                 delay(1000)
                 log("Timer: $i")
             }
+            // Oстановка сервиса изнутри
+            // stopSelf()
         }
 
         return START_STICKY
@@ -49,7 +53,7 @@ class MyForegroundService: Service() {
     }
 
     private fun log(message: String) {
-        Log.d("SERVICE_TAG", "My foreground service: $message")
+        Log.d("", "My foreground service: $message")
     }
 
     private fun showNotification(notification: Notification) {
