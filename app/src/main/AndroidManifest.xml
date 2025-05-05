@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -32,6 +33,10 @@
             android:permission="android.permission.BIND_JOB_SERVICE"
             />
         <service android:name=".EarlyVersionsIntentService" />
+        <service
+            android:name=".MyJobIntentService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            />
     </application>
 
 </manifest>
